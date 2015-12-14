@@ -1,0 +1,154 @@
+﻿Assignment 2						CS 170. Introduction to Artificial Intelligence
+John Li								Instructor: Dr. Eamonn Keogh
+ID: 861058280
+jli042@ucr.edu
+10-December-2015
+
+
+In completing this homework I consulted…
+
+The cs170 powerpoint slides
+Rica Feng who explained k fold cross validation
+Eamonn Keogh for “My Algorithm”
+cplusplus website for explanations on the usage of std functions
+Daniel Smith who explained nearest neighbor 
+
+All the important code is original. Unimportant subroutines that are not completely original are…
+
+None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example Run on cs_170_small80.txt Forward Search:
+
+Read in default file small80.txt (1) or read in your own file(2)? 1
+Type the number of the algorithm you want to run.
+1.) Foward Selection
+2.) Backward Elmination
+3.) John Li's 'Algorithm'
+1
+
+This dataset has 10 features (not including the class attribute), with 100 instances.
+
+Please wait while I normlize everything... Done.
+
+Running nearest algorithm with all 10 features, using “leaving-one-out” evaluation, I get an accuracy of 65%
+
+Beginning Search...
+Using features(s) {1} accuracy is 57%
+Using features(s) {2} accuracy is 54%
+Using features(s) {3} accuracy is 68%
+Using features(s) {4} accuracy is 65%
+Using features(s) {5} accuracy is 75%
+Using features(s) {6} accuracy is 61%
+Using features(s) {7} accuracy is 62%
+Using features(s) {8} accuracy is 60%
+Using features(s) {9} accuracy is 66%
+Using features(s) {10} accuracy is 64%
+
+Feature set {5} was best, accuracy is 75%
+
+.
+.
+.
+Using features(s) {5, 3, 6} accuracy is 80%
+Using features(s) {5, 3, 7} accuracy is 90%
+Using features(s) {5, 3, 8} accuracy is 79%
+Using features(s) {5, 3, 9} accuracy is 83%
+Using features(s) {5, 3, 10} accuracy is 85%
+
+Feature set {5, 3, 7} was best, accuracy is 90%
+
+Finished search!! The best feature subset is {5, 3}, which has an accuracy of 92%
+
+
+
+
+Results:
+
+cs_170_small80.txt: 
+# of Instances: 100
+# of Features: 10
+Accuracy on all 10 Features: 65%
+Forward Selection Best Accuracy: {5, 3} 92%
+Backward Elimation Best Accuracy: {4, 5, 7, 8, 9, 10} 79%
+John Li's Algorithm Best Accuracy: {10, 5} 82%
+
+cs_170_large80.txt:
+# of Instances: 1000
+# of Features: 40
+Accuracy on all 10 Features: 69.5%
+Forward Selection Best Accuracy: {27, 1} 95.6%
+Backward Elimation Best Accuracy: {2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40} 72.4%
+John Li's Algorithm Best Accuracy: {27, 1, 2} 95.6%
+
+cs_170_small37.txt:
+# of Instances: 100
+# of Features: 10
+Accuracy on all 10 Features: 69%
+Forward Selection Best Accuracy: {3, 1} 93%
+Backward Elimation Best Accuracy: {1, 2, 3, 6, 8, 9} 89%
+John Li's Algorithm Best Accuracy:
+
+cs_170_large37.txt:
+# of Instances: 100
+# of Features: 10
+Accuracy on all 10 Features: 65.9%
+Forward Selection Best Accuracy: {7, 10} 97.4%
+Backward Elimation Best Accuracy:  {1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 14, 15, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 31, 32, 33, 34, 36, 38, 39, 40} 73.8%
+John Li's Algorithm Best Accuracy: {7, 29} 84.9%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Summary:
+
+	For this assignment I have implemented three algorithms which all use the leave_one_out algorithm to figure out which features are the most accurate when applying the leave_one_out algorithm. The three algorithms I used in this assignment is Forward Selection, Backward Elimination, and My Own Algorithm. 
+
+	First we'll talk about the leave_one_out_algorithm. For the leave_one_out algorithm, we basically take in the features we want to compare (the columns of the feature list) and the feature list that contains the classes of each instance (the rows of the feature list). For each instance we apply the distance formula or the Euclidean Distance formula with the rest of the instances in the feature list. So for example, we start with row 1 aka the first instance and we apply the distance formula to it with all the instances in the feature list. Afterwards we grab the instance with the least distance to the current instance and we check its class. If its class is the same as the current instance then we increment the accuracy counter, if not then we leave it alone and move on to the next instance. At the end after all the features were compared to we divide the accuracy counter by the total number of instances in the list to find out the accuracy percentage of that feature. We use this accuracy counter to compare to the other feature columns in the three algorithms
+
+	In Forward Selection we apply the leave_one_out algorithm to all the features. After we apply the algorithm to all the features we check to see which feature had the best accuracy and then add it to a list of features. So in the next iteration we will look at two features instead of 1 and excluding the previous feature we have added to the list and apply the leave_one_out algorithm to it as well. Also we add that list to a list of best features list. We keep repeating this process until all of the features are added to the list or if the previous list's accuracy is better than the current list's accuracy. If either of those happen we stop and we return the best accuracy out of all the list of best features list. 
+
+	The Backward Elimination algorithm is similar to the forward selection except we work backwards, hence the name. We start with all the features in the list and instead of adding, we remove one feature and check its accuracy after apply the leave_one_out algorithm on it. Afterwards we push it onto a list of best accuracy list. We keep removing features until there is only 1 feature left in the main list or until the previous list's accuracy is better than the current list's accuracy. If either of those happen we stop and return the best accuracy out of all the lists.
+
+	For My Algorithm it is an alternative Forward Selection. How it works is that instead of apply leave_one_out on all the instances in the list, we randomize it at apply it 10 instead to speed up the process. We do that to all of the features in the list and then we take the top 3 best accuracy and apply the leave_one_out algorithm to that feature except this time to all the instances instead. Afterwards it takes the feature with the best accuracy out of all of them and pushes that feature into the list. We repeat this until the same thing happens in the Forward Elimination algorithm where the previous accuracy is better or if the list is full. We then return the best accuracy at the end.
+
+	After running all of these algorithms I have concluded that 
+
